@@ -1,0 +1,393 @@
+/* frontend/src/App.css */
+/* --- SIMPLIFIED VERSION FOR DEBUGGING --- */
+
+/* General Styles */
+.heading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Form and Content Layout */
+.form,
+.content {
+  width: 70%;
+  margin: 0 auto;
+}
+
+/* Form Grouping and Inputs */
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Button Styles */
+.btn {
+  padding: 10px 20px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background: #000;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  appearance: button;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: scale(0.98);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* Header/Navbar Styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 40px;
+}
+
+.header ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header li {
+  margin-left: 20px;
+}
+
+.header a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.header a:hover {
+  color: #777;
+}
+
+.logo a {
+  font-size: 42px;
+}
+
+/* Task List Styles */
+.tasks {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+/* Individual Task Item Styles */
+.task {
+  background-color: #fff;
+  margin: 10px 0;
+  padding: 20px 20px 10px;
+  position: relative;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+}
+
+.task .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #888;
+}
+
+.task .close:hover {
+  color: #333;
+}
+.btn-google {
+    background-color: #dd4b39;
+    border-color: #dd4b39;
+    margin-top: 10px;
+}
+/* Add to end of App.css */
+.task {
+  display: flex; /* Use flexbox for better alignment */
+  align-items: center;
+}
+
+/* This rule applies when a task has the 'completed' class */
+.task.completed h2 {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.task-checkbox {
+  margin-right: 15px;
+  min-width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.task-content {
+  flex-grow: 1; /* Allows the text content to take up the remaining space */
+}
+/* CSS for new task details */
+.task-description {
+  font-size: 0.9em;
+  color: #555;
+  margin: 5px 0;
+}
+.task-meta {
+  font-size: 0.8em;
+  color: #777;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.task-category {
+  background-color: #e0e0e0;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+/* Admin table styles */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.user-table th, .user-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+.user-table th {
+  background-color: #f2f2f2;
+}
+.status {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  color: white;
+}
+.status-active {
+  background-color: #28a745;
+}
+.status-inactive {
+  background-color: #dc3545;
+}
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.chart-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 40px;
+  border: 1px solid #e6e6e6;
+}
+/* Add this to the end of App.css */
+.dashboard-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+@media (min-width: 768px) {
+  .dashboard-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.tasks-condensed .task {
+  padding: 10px 15px;
+  margin: 5px 0;
+}
+.tasks-condensed h2 {
+    font-size: 1.1rem;
+    margin-top: 0;
+}
+/* Add this to the end of App.css */
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  font-size: 0.9rem;
+  padding: 8px 12px;
+}
+/* Add to the end of App.css */
+.sort-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sort-container label {
+  font-weight: bold;
+}
+.sort-container select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+/* Add this to the end of App.css */
+
+.google-login-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.google-login-container p {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+.btn-google {
+  background-color: #1922cd;
+  border-color: #3719d0;
+}
+/* AI Generate Button Styles */
+.description-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.btn-sm {
+  padding: 4px 8px;
+  font-size: 0.8rem;
+}
+/* Add to end of App.css */
+.download-buttons {
+  display: flex;
+  gap: 10px;
+}
+.btn-excel {
+  background-color: #1D6F42; /* Excel green */
+  border-color: #1D6F42;
+}
+/* Add to end of App.css */
+.btn-pdf {
+  background-color: #B91C1C; /* A reddish color for PDF */
+  border-color: #B91C1C;
+}
+
+.sort-container-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -30px; /* Adjust as needed */
+  margin-bottom: 10px;
+}
+/* Category Stats Styles */
+.category-stats {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #e6e6e6;
+}
+.category-stats h3 {
+  margin-top: 0;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+.category-stats ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.category-stats li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+.category-stats li:last-child {
+  border-bottom: none;
+}
+.category-name {
+  font-weight: bold;
+}
+.category-count {
+  color: #555;
+  background-color: #e0e0e0;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.8em;
+}
+/* AI Feature Styles */
+.report-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f0f4f8;
+  border: 1px solid #d1dce5;
+  border-radius: 5px;
+  white-space: pre-wrap; /* Preserves line breaks from the AI */
+  line-height: 1.6;
+}
+.category-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.category-input-wrapper input {
+  flex-grow: 1;
+  padding-right: 60px; /* Make space for the button */
+}
+.btn-apply-suggestion {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #e9ecef;
+  border: 1px solid #ced4da;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #495057;
+  font-weight: bold;
+}
+.btn-apply-suggestion:hover {
+    background: #dde2e6;
+}
+/* Add this new rule to the end of App.css */
+
+.form-container {
+  width: 90%;
+  max-width: 500px; /* You can adjust this value */
+  margin: 30px auto; /* Adds space at the top and centers it */
+  padding: 30px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/* Add this new rule to the end of App.css */
+

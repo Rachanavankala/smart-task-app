@@ -16,7 +16,7 @@ const port = process.env.PORT || 5000;
 connectDB();
 const app = express();
 app.use(cors({
-    origin:'https://smart-task-app-vankala-rachanas-projects.vercel.app',
+    origin:'https://smart-task-app-sigma.vercel.app',
     credentials:true,
 }));
 app.use(express.json());

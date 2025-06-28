@@ -3,7 +3,7 @@
 const express = require('express');
 const colors = require('colors');
 const dotenv = require('dotenv').config();
-const cors=require('cors');
+const cors = require('cors');
 const session = require('express-session'); // Import session
 const passport = require('passport'); // Import passport
 const connectDB = require('./config/db');
@@ -15,7 +15,10 @@ require('./config/passport')(passport);
 const port = process.env.PORT || 5000;
 connectDB();
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin:'https://smart-task-app-vankala-rachanas-projects.vercel.app',
+    credentials:true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

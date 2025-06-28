@@ -4,7 +4,10 @@
 import axios from 'axios';
 import authService from '../auth/authService';
 
-const API_URL = '/api/ai/';
+const API_URL = import.meta.env.PROD
+  ? `${import.meta.env.VITE_API_URL}/api/auth/`
+  : '/api/auth/';
+  ;
 
 /**
  * Calls the backend to generate a description from a task title.

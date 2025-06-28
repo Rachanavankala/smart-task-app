@@ -1,6 +1,9 @@
 // frontend/src/features/admin/adminService.js
 import axios from 'axios';
-const API_URL = '/api/admin/';
+const API_URL = import.meta.env.PROD
+  ? `${import.meta.env.VITE_API_URL}/api/auth/`
+  : '/api/auth/';
+  ;
 
 const getUsers = async (token) => {
   const config = { headers: { Authorization: `Bearer ${token}` } };

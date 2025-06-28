@@ -1,6 +1,9 @@
 // frontend/src/features/tasks/taskService.js
 import axios from 'axios';
-const API_URL = '/api/tasks/';
+const API_URL =import.meta.env.PROD
+  ? `${import.meta.env.VITE_API_URL}/api/auth/`
+  : '/api/auth/';
+  ;
 
 const getConfig = (token) => ({ headers: { Authorization: `Bearer ${token}` } });
 const createTask = async (taskData, token) => { const response = await axios.post(API_URL, taskData, getConfig(token)); return response.data; };

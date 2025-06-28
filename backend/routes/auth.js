@@ -1,32 +1,28 @@
 // backend/routes/auth.js
-// --- FINAL, UNIFIED AUTH VERSION ---
+// --- FINAL, CORRECTED VERSION ---
 
 const express = require('express');
 const router = express.Router();
-const passport = require('passport'); // For Google authentication
+const passport = require('passport');
 const { registerUser, loginUser } = require('../controllers/userController');
-const generateToken = require('../utils/generateToken.js'); // Import our token utility
+const generateToken = require('../utils/generateToken.js');
 
-// Regular email/password routes
+// This route correctly uses .post() for registration
 router.post('/register', registerUser);
+
+// --- THIS IS THE LINE WE ARE FIXING ---
+// It must be router.post(), not router.get() or anything else.
 router.post('/login', loginUser);
 
-// --- GOOGLE OAUTH ROUTES ---
-
-// @desc    Initiate authentication with Google
-// @route   GET /api/auth/google
+// Google routes correctly use .get()
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-// @desc    Google authentication callback URL
-// @route   GET /api/auth/google/callback
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:5173/login', // Redirect to frontend on fail
+    failureRedirect: 'http://localhost:5173/login', // We'll update this later if needed
     session: false,
   }),
   (req, res) => {
-    // On success, Passport attaches the user to `req.user`
     const token = generateToken(req.user._id);
     const userForFrontend = {
       _id: req.user._id,
@@ -36,8 +32,11 @@ router.get(
       token: token,
     };
     const userJson = JSON.stringify(userForFrontend);
-    // Redirect back to the special frontend URL to process the login
-    res.redirect(`http://localhost:5173/login/success?user=${encodeURIComponent(userJson)}`);
+    // This needs to be your live Vercel URL
+    const frontendUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://smart-task-app-sigma.vercel.app/login/success' 
+      : 'http://localhost:5173/login/success';
+    res.redirect(`${frontendUrl}?user=${encodeURIComponent(userJson)}`);
   }
 );
 

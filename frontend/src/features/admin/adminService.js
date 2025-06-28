@@ -1,8 +1,8 @@
 // frontend/src/features/admin/adminService.js
 import axios from 'axios';
 const API_URL = import.meta.env.PROD
-  ? `${import.meta.env.VITE_API_URL}/api/auth/`
-  : '/api/auth/';
+  ? `${import.meta.env.VITE_API_URL}/api/admin/`
+  : '/api/admin/';
   ;
 
 const getUsers = async (token) => {

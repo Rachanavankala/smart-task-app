@@ -99,11 +99,11 @@ function Login() {
         <div className="google-login-container">
           <p>OR</p>
           <a
-            href="http://localhost:5000/api/auth/google"
-            className="btn btn-google btn-block"
-          >
-            Login with Google
-          </a>
+  href={`${import.meta.env.VITE_API_URL}/api/auth/google`}
+  className="btn btn-google btn-block"
+>
+  Login with Google
+</a>
         </div>
       </section>
     </div>

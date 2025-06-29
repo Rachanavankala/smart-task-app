@@ -21,14 +21,23 @@ function Login() {
   );
 
   useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    if (isSuccess || user) {
-      navigate('/');
-    }
-    dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  console.log("user:", user);
+  console.log("isSuccess:", isSuccess);
+  console.log("isError:", isError);
+  console.log("message:", message);
+
+  if (isError) {
+    toast.error(message);
+  }
+
+  if (isSuccess || user) {
+    navigate('/', { replace: true });
+
+    setTimeout(() => {
+      dispatch(reset());
+    }, 100);
+  }
+}, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({

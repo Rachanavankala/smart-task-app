@@ -27,6 +27,10 @@ app.use(session({
     secret: 'a secret for the session', // Change in production
     resave: false,
     saveUninitialized: false,
+    cookie:{
+        secret:true,
+        sameSite:'none'
+    }
 }));
 
 // Passport Middleware

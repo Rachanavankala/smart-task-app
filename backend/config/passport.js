@@ -11,7 +11,8 @@ module.exports = function (passport) {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "https://smart-task-app-0233.onrender.com/api/auth/google/callback"
+        callbackURL: CLIENT_URL=`${process.env.CLIENT_URL}/api/auth/google/callback`,
+
       },
       async (accessToken, refreshToken, profile, done) => {
         // Get the user's profile info from Google

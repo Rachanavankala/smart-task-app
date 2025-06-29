@@ -1,29 +1,30 @@
-// backend/routes/auth.js
-// --- FINAL, CORRECTED VERSION ---
-
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const { registerUser, loginUser } = require('../controllers/userController');
-const generateToken = require('../utils/generateToken.js');
+const generateToken = require('../utils/generateToken');
 
-// This route correctly uses .post() for registration
+// Register route
 router.post('/register', registerUser);
 
-// --- THIS IS THE LINE WE ARE FIXING ---
-// It must be router.post(), not router.get() or anything else.
+// Login route
 router.post('/login', loginUser);
 
-// Google routes correctly use .get()
+// Google OAuth login
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// Google OAuth callback
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:5173/login', // We'll update this later if needed
+    failureRedirect: process.env.NODE_ENV === 'production'
+      ? 'https://smart-task-app-sigma.vercel.app/login'
+      : 'http://localhost:5173/login',
     session: false,
   }),
   (req, res) => {
     const token = generateToken(req.user._id);
+
     const userForFrontend = {
       _id: req.user._id,
       name: req.user.name,
@@ -31,11 +32,13 @@ router.get(
       isAdmin: req.user.isAdmin,
       token: token,
     };
+
     const userJson = JSON.stringify(userForFrontend);
-    // This needs to be your live Vercel URL
-    const frontendUrl = process.env.NODE_ENV === 'production' 
-      ? 'https://smart-task-app-sigma.vercel.app/login/success' 
+
+    const frontendUrl = process.env.NODE_ENV === 'production'
+      ? 'https://smart-task-app-sigma.vercel.app/login/success'
       : 'http://localhost:5173/login/success';
+
     res.redirect(`${frontendUrl}?user=${encodeURIComponent(userJson)}`);
   }
 );

@@ -16,9 +16,14 @@ const port = process.env.PORT || 5000;
 connectDB();
 const app = express();
 app.use(cors({
-    origin:'https://smart-task-app-sigma.vercel.app',
-    credentials:true,
-}));
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

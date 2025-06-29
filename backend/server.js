@@ -48,7 +48,9 @@ app.use('/api/ai', require('./routes/aiRoutes.js')); // <-- ADD THIS LINE
 // Custom Error Handler...
 
 app.use(errorHandler);
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(5000, '0.0.0.0' , () =>{
+    console.log(`server running on port 5000`);
+});
 // In server.js
 
 

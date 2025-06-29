@@ -1,11 +1,10 @@
 // backend/server.js
-// backend/server.js
 const express = require('express');
 const colors = require('colors');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
-const session = require('express-session'); // Import session
-const passport = require('passport'); // Import passport
+const session = require('express-session');
+const passport = require('passport');
 const connectDB = require('./config/db');
 const { errorHandler } = require('./middleware/errorMiddleware');
 
@@ -14,7 +13,16 @@ require('./config/passport')(passport);
 
 const port = process.env.PORT || 5000;
 connectDB();
+
 const app = express();
+
+// ✅ CORS Allowed Origins
+const allowedOrigins = [
+  'https://smart-task-app-sigma.vercel.app',
+  'https://smart-task-kskgde1l-vankala-rachanas-projects.vercel.app'
+];
+
+// ✅ CORS Middleware
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -23,40 +31,39 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true}));
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Session Middleware (must be before Passport)
+// ✅ Session Middleware
 app.use(session({
-    secret: 'a secret for the session', // Change in production
-    resave: false,
-    saveUninitialized: false,
-    cookie:{
-        secret:true,
-        sameSite:'none'
-    }
+  secret: 'a secret for the session', // Change this in production!
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secret: true,
+    sameSite: 'none',
+    secure: true // required for cross-site cookies on HTTPS
+  }
 }));
 
-// Passport Middleware
+// ✅ Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
+// ✅ Routes
 app.use('/api/auth', require('./routes/auth.js'));
 app.use('/api/tasks', require('./routes/taskRoutes.js'));
-app.use('/api/admin', require('./routes/adminRoutes.js')); // <-- ADD THIS LINE
-app.use('/api/stats', require('./routes/statsRoutes.js')); 
-// in server.js, with your other routes
-app.use('/api/ai', require('./routes/aiRoutes.js')); // <-- ADD THIS LINE
+app.use('/api/admin', require('./routes/adminRoutes.js'));
+app.use('/api/stats', require('./routes/statsRoutes.js'));
+app.use('/api/ai', require('./routes/aiRoutes.js'));
 
-// Custom Error Handler...
-
+// ✅ Error Handler
 app.use(errorHandler);
-app.listen(5000, '0.0.0.0' , () =>{
-    console.log(`server running on port 5000`);
+
+// ✅ Start Server
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on port ${port}`);
 });
-// In server.js
-
-
-// Custom Error Handler...

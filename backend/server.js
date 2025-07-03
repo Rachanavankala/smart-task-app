@@ -19,7 +19,7 @@ const app = express();
 // ✅ CORS Allowed Origins
 const allowedOrigins = [
   'https://smart-task-app-sigma.vercel.app',
-  'https://smart-task-kskgde1l-vankala-rachanas-projects.vercel.app'
+  'https://smart-task-kskgde1l-vankala-rachanas-projects.vercel.app',
 ];
 
 // ✅ CORS Middleware

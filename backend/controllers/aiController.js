@@ -55,7 +55,9 @@ const predictCategory = asyncHandler(async (req, res) => {
   }).sort({ createdAt: -1 }).limit(10);
 
   const history = recentTasks.map(t => `- "${t.text}" is in category "${t.category}"`).join('\n');
-  const prompt = `A user has this task history:\n${history}\n\nFor a new task "${title}", what is the single best category? Respond with only the category name. If unsure, say "General".`;
+  const prompt =`You are an intelligent assistant that assigns categories to tasks based only on their titles. Given a task title, reply with a single, best-fit category that describes the task. Keep the category short (e.g., "Work", "Personal", "Shopping", "Fitness", "Coding", "Learning", "Finance", "Travel"). If no clear category is found, respond with "General". Only reply with the category name.
+
+Task Title: "${title}"`;
 
   try {
     const response = await openai.chat.completions.create({

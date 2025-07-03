@@ -100,7 +100,6 @@ const getCreatedVsCompletedStats = asyncHandler(async (req, res) => {
   last7Days.setHours(0, 0, 0, 0);
 
   const stats = await Task.aggregate([
-    // 1. Get all tasks created or updated in the last 7 days for the user
     {
       $match: {
         user: new mongoose.Types.ObjectId(req.user.id),
@@ -110,7 +109,6 @@ const getCreatedVsCompletedStats = asyncHandler(async (req, res) => {
         ],
       },
     },
-    // 2. Project fields to normalize created and completed dates
     {
       $project: {
         createdDate: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
@@ -123,12 +121,9 @@ const getCreatedVsCompletedStats = asyncHandler(async (req, res) => {
         },
       },
     },
-    // 3. Unwind the data to process created and completed events separately
     {
       $facet: {
-        created: [
-          { $group: { _id: '$createdDate', count: { $sum: 1 } } },
-        ],
+        created: [{ $group: { _id: '$createdDate', count: { $sum: 1 } } }],
         completed: [
           { $match: { completedDate: { $ne: null } } },
           { $group: { _id: '$completedDate', count: { $sum: 1 } } },
@@ -137,27 +132,22 @@ const getCreatedVsCompletedStats = asyncHandler(async (req, res) => {
     },
   ]);
 
-  // 4. Format the data for the frontend chart
   const formattedStats = {};
   for (let i = 6; i >= 0; i--) {
     const date = new Date();
-    date.setDate(today.getDate() - i);
-    const dateString = date.toISOString().split('T')[0]; // YYYY-MM-DD
+    date.setDate(new Date().getDate() - i);
+    const dateString = date.toISOString().split('T')[0];
     const label = `${date.getMonth() + 1}/${date.getDate()}`;
     formattedStats[label] = { created: 0, completed: 0 };
   }
 
   stats[0].created.forEach(item => {
     const label = `${new Date(item._id).getUTCMonth() + 1}/${new Date(item._id).getUTCDate()}`;
-    if (formattedStats[label]) {
-      formattedStats[label].created = item.count;
-    }
+    if (formattedStats[label]) { formattedStats[label].created = item.count; }
   });
   stats[0].completed.forEach(item => {
     const label = `${new Date(item._id).getUTCMonth() + 1}/${new Date(item._id).getUTCDate()}`;
-    if (formattedStats[label]) {
-      formattedStats[label].completed = item.count;
-    }
+    if (formattedStats[label]) { formattedStats[label].completed = item.count; }
   });
   
   const labels = Object.keys(formattedStats);
@@ -167,10 +157,9 @@ const getCreatedVsCompletedStats = asyncHandler(async (req, res) => {
   res.status(200).json({ labels, createdData, completedData });
 });
 
-
-
-
+// --- THIS IS THE CORRECTED EXPORT BLOCK ---
 module.exports = {
   getTaskStatsByDay,
   getPopularCategories,
+  getCreatedVsCompletedStats, // Add the missing function here
 };

@@ -7,16 +7,19 @@ const router = express.Router();
 // --- THIS IS THE CORRECTED IMPORT ---
 const {
   getTaskStatsByDay,
-  getPopularCategories, // Add the missing function here
+  getPopularCategories,
+  getCreatedVsCompletedStats, // Add the missing function here
 } = require('../controllers/statsController');
 
 const { protect } = require('../middleware/authMiddleware');
 
-// Route for the chart data
+// Route for the first chart
 router.route('/tasks-by-day').get(protect, getTaskStatsByDay);
 
 // Route for the popular categories list
 router.route('/popular-categories').get(protect, getPopularCategories);
-router.route('/created-vs-completed').get(protect, getCreatedVsCompletedStats); 
+
+// Route for the new comparison chart
+router.route('/created-vs-completed').get(protect, getCreatedVsCompletedStats);
 
 module.exports = router;

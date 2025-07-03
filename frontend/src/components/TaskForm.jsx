@@ -1,6 +1,4 @@
 // frontend/src/components/TaskForm.jsx
-// --- FINAL, CORRECTED VERSION ---
-
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -24,24 +22,24 @@ function TaskForm() {
   const { text, description, category, dueDate } = formData;
   const dispatch = useDispatch();
 
-  // useEffect for category prediction
+  // ✅ Updated useEffect: Always update category when task name changes
   useEffect(() => {
-    if (!text || text.length < 5) { // Don't predict for very short text
-      return;
-    }
+    if (!text || text.length < 5) return;
+
     const timer = setTimeout(() => {
-      aiService.predictCategory(text)
+      aiService
+        .predictCategory(text)
         .then((data) => {
-          // Only update if the category field is still empty
-          if (!formData.category) {
-            setFormData((prevState) => ({ ...prevState, category: data.category }));
-          }
+          setFormData((prevState) => ({
+            ...prevState,
+            category: data.category,
+          }));
         })
         .catch((err) => console.error("Category prediction failed:", err));
-    }, 1200); // Wait a little longer
-    return () => clearTimeout(timer);
-  }, [text, formData.category]); // Re-added formData.category to dependency array
+    }, 1200);
 
+    return () => clearTimeout(timer);
+  }, [text]); // Only depend on text, not category
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -50,7 +48,6 @@ function TaskForm() {
     }));
   };
 
-  // --- THIS FUNCTION IS NOW CORRECT ---
   const handleGenerateDesc = async () => {
     if (!text) {
       toast.error('Please enter a Task Name first.');
@@ -59,26 +56,29 @@ function TaskForm() {
     setIsGenerating(true);
     try {
       const data = await aiService.generateDescription(text);
-      // This correctly updates only the description field
-      setFormData((prevState) => ({ ...prevState, description: data.description }));
+      setFormData((prevState) => ({
+        ...prevState,
+        description: data.description,
+      }));
     } catch (error) {
       toast.error('Failed to generate AI description.');
     } finally {
-      // This ensures the button is always re-enabled
       setIsGenerating(false);
     }
   };
 
-  // --- THIS FUNCTION IS NOW CORRECT ---
   const onSubmit = (e) => {
     e.preventDefault();
-    // It now dispatches the entire formData object
     dispatch(createTask(formData))
       .unwrap()
       .then(() => {
         toast.success('Task Added!');
-        setFormData({ text: '', description: '', category: '', dueDate: '' }); // Reset form
-        // Re-fetch all lists to keep the UI in sync
+        setFormData({
+          text: '',
+          description: '',
+          category: '',
+          dueDate: '',
+        });
         dispatch(getTasks());
         dispatch(getTasksDueToday());
         dispatch(getUpcomingTasks());
@@ -104,6 +104,7 @@ function TaskForm() {
             required
           />
         </div>
+
         {/* Description Input & Button */}
         <div className="form-group">
           <div className="description-header">
@@ -125,6 +126,7 @@ function TaskForm() {
             rows="4"
           ></textarea>
         </div>
+
         {/* Category Input */}
         <div className="form-group">
           <label htmlFor="category">Category</label>
@@ -137,6 +139,7 @@ function TaskForm() {
             placeholder="AI will predict this..."
           />
         </div>
+
         {/* Due Date Input */}
         <div className="form-group">
           <label htmlFor="dueDate">Due Date</label>
@@ -148,6 +151,7 @@ function TaskForm() {
             onChange={onChange}
           />
         </div>
+
         {/* Submit Button */}
         <div className="form-group">
           <button className="btn btn-block" type="submit">

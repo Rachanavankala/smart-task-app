@@ -7,6 +7,7 @@ import statsService from './statsService';
 const initialState = {
   data: [], // For the chart
   popularCategories: [], // For the new list
+  createdVsCompleted: { labels: [], createdData: [], completedData: [] }, 
   isError: false,
   isLoading: false,
   message: '',
@@ -42,6 +43,18 @@ export const getPopularCategories = createAsyncThunk(
     }
   }
 );
+export const getCreatedVsCompletedStats = createAsyncThunk('stats/getCreatedVsCompleted', async (_, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token;
+        return await statsService.getCreatedVsCompletedStats(token);
+    } catch (error) { const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message); }
+});
 
 
 // --- THE SLICE ---
@@ -74,7 +87,10 @@ export const statsSlice = createSlice({
         // We can share the same error state
         state.isError = true;
         state.message = action.payload;
-      });
+      })
+      .addCase(getCreatedVsCompletedStats.fulfilled, (state, action) => {
+    state.createdVsCompleted = action.payload;
+});
   },
 });
 

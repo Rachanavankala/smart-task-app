@@ -10,7 +10,8 @@ import CategoryStats from '../components/CategoryStats';
 import { getTasks, getTasksDueToday, getUpcomingTasks, reset as resetTasks, setSortOption, selectSortedTasks } from '../features/tasks/taskSlice';
 import { getTaskStats, getPopularCategories, reset as resetStats } from '../features/stats/statsSlice';
 import taskService from '../features/tasks/taskService';
-
+import { getCreatedVsCompletedStats } from '../features/stats/statsSlice';
+import ComparisonChart from '../components/ComparisonChart';
 function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function Dashboard() {
       dispatch(getTasksDueToday());
       dispatch(getUpcomingTasks());
       dispatch(getPopularCategories());
+      dispatch(getCreatedVsCompletedStats());
     }
     return () => { dispatch(resetTasks()); dispatch(resetStats()); };
   }, [user, navigate, dispatch]);
@@ -67,6 +69,9 @@ function Dashboard() {
             <div className="tasks-condensed">{tasksDueToday.map((task) => (<TaskItem key={task._id} task={task} />))}</div>
           ) : (<h3>No tasks due today</h3>)}
         </section>
+        <section className="chart-container">
+           <ComparisonChart />
+          </section>
         <section className="content">
           <h2>Upcoming Tasks</h2>
           {upcomingTasks && upcomingTasks.length > 0 ? (
@@ -94,6 +99,7 @@ function Dashboard() {
               <option value="newest-first">Newest First</option>
               <option value="oldest-first">Oldest First</option>
               <option value="due-date">Due Date</option>
+
             </select>
           </div>
         </div>

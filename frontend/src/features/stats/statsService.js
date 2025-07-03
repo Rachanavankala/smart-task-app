@@ -28,10 +28,16 @@ const getPopularCategories = async (token) => {
   const response = await axios.get(API_URL + 'popular-categories', getConfig(token));
   return response.data;
 };
+const getCreatedVsCompletedStats = async (token) => {
+  const config = { headers: { Authorization: `Bearer ${token}` } };
+  const response = await axios.get(API_URL + 'created-vs-completed', config);
+  return response.data;
+};
 
 const statsService = {
   getTaskStats,
   getPopularCategories,
+  getCreatedVsCompletedStats,
 };
 
 export default statsService;
